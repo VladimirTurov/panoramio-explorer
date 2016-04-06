@@ -21,13 +21,7 @@ namespace PanoramioExplorer
 
         protected override void Configure()
         {
-            ConfigureMapping();
             RegisterDependencies();
-        }
-
-        private void ConfigureMapping()
-        {
-         
         }
 
         private void RegisterDependencies()
@@ -36,6 +30,7 @@ namespace PanoramioExplorer
             container.RegisterWinRTServices();
 
             container.Singleton<MapViewModel>();
+            container.PerRequest<ViewModelFactory>();
             container.PerRequest<PanoramioClient>();
 
             eventAggregator = container.GetInstance<IEventAggregator>();

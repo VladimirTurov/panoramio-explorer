@@ -7,21 +7,28 @@ namespace PanoramioExplorer.ViewModels
 {
     public class MapViewModel : Screen
     {
-        private PhotoFeedViewModel _photos;
+        private readonly ViewModelFactory factory;
+        private PhotoFeedViewModel photos;
+
+        public MapViewModel(ViewModelFactory factory)
+        {
+            this.factory = factory;
+        }
 
         public PhotoFeedViewModel Photos
         {
-            get { return _photos; }
+            get { return photos; }
             private set
             {
-                if (Equals(value, _photos)) return;
-                _photos = value;
+                if (Equals(value, photos)) return;
+                photos = value;
                 NotifyOfPropertyChange();
             }
         }
 
         public void ChangeVisibleArea(GeoArea visibleArea)
         {
+            Photos = factory.CreatePhotoFeedViewModel(visibleArea);
         }
     }
 }
