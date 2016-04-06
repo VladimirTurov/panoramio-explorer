@@ -1,5 +1,5 @@
-﻿using System;
-using AutoMapper;
+﻿using System.Threading;
+using System.Threading.Tasks;
 using Caliburn.Micro;
 using PanoramioSDK;
 
@@ -9,6 +9,7 @@ namespace PanoramioExplorer.ViewModels
     {
         private readonly ViewModelFactory factory;
         private PhotoFeedViewModel photos;
+        private CancellationTokenSource cts;
 
         public MapViewModel(ViewModelFactory factory)
         {
@@ -26,8 +27,20 @@ namespace PanoramioExplorer.ViewModels
             }
         }
 
-        public void ChangeVisibleArea(GeoArea visibleArea)
+        public async void ChangeVisibleArea(GeoArea visibleArea)
         {
+            try
+            {
+                cts?.Cancel();
+                cts = new CancellationTokenSource();
+                await Task.Delay(500, cts.Token);
+            }
+            catch (TaskCanceledException)
+            {
+                // throttling ftw
+                return;
+            }
+
             Photos = factory.CreatePhotoFeedViewModel(visibleArea);
         }
     }
