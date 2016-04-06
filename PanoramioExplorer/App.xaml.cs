@@ -2,15 +2,17 @@
 using System.Collections.Generic;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
+using AutoMapper;
 using Caliburn.Micro;
 using PanoramioExplorer.ViewModels;
+using PanoramioSDK;
 
 namespace PanoramioExplorer
 {
     public sealed partial class App
     {
-        private WinRTContainer _container;
-        private IEventAggregator _eventAggregator;
+        private WinRTContainer container;
+        private IEventAggregator eventAggregator;
 
         public App()
         {
@@ -19,13 +21,24 @@ namespace PanoramioExplorer
 
         protected override void Configure()
         {
-            _container = new WinRTContainer();
-            _container.RegisterWinRTServices();
+            ConfigureMapping();
+            RegisterDependencies();
+        }
 
-            _container.Singleton<MapViewModel>();
+        private void ConfigureMapping()
+        {
+         
+        }
 
-            _eventAggregator = _container.GetInstance<IEventAggregator>();
+        private void RegisterDependencies()
+        {
+            container = new WinRTContainer();
+            container.RegisterWinRTServices();
 
+            container.Singleton<MapViewModel>();
+            container.PerRequest<PanoramioClient>();
+
+            eventAggregator = container.GetInstance<IEventAggregator>();
         }
 
         protected override void OnLaunched(LaunchActivatedEventArgs args)
@@ -43,17 +56,17 @@ namespace PanoramioExplorer
 
         protected override object GetInstance(Type service, string key)
         {
-            return _container.GetInstance(service, key);
+            return container.GetInstance(service, key);
         }
 
         protected override IEnumerable<object> GetAllInstances(Type service)
         {
-            return _container.GetAllInstances(service);
+            return container.GetAllInstances(service);
         }
 
         protected override void BuildUp(object instance)
         {
-            _container.BuildUp(instance);
+            container.BuildUp(instance);
         }
     }
 }
