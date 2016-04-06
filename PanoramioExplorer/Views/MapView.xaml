@@ -2,12 +2,33 @@
   x:Class="PanoramioExplorer.Views.MapView"
   xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+  xmlns:controls="using:PanoramioExplorer.Controls"
   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
   xmlns:maps="using:Windows.UI.Xaml.Controls.Maps"
   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
   xmlns:viewModels="using:PanoramioExplorer.ViewModels"
   d:DataContext="{d:DesignInstance viewModels:MapViewModel}"
   mc:Ignorable="d">
+
+  <Page.Resources>
+    <SolidColorBrush x:Key="SemiBlack" Color="#CC151313" />
+    
+    <DataTemplate x:Key="PhotoTemplate">
+      <controls:PhotoImage
+        Title="{Binding Title}"
+        Width="150"
+        Height="150"
+        Background="White"
+        Foreground="Black"
+        ImageSource="{Binding Source}" />
+    </DataTemplate>
+
+    <Style x:Key="PhotoContainerStyle" TargetType="ListViewItem">
+      <Setter Property="Padding" Value="0" />
+      <Setter Property="Margin" Value="0,12" />
+      <Setter Property="HorizontalAlignment" Value="Center" />
+    </Style>
+  </Page.Resources>
 
   <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
     <maps:MapControl
@@ -19,6 +40,13 @@
       RotateInteractionMode="Disabled"
       ZoomLevel="4" />
 
-    <ListView ItemsSource="{Binding Photos}" />
+    <ListView
+      x:Name="PhotoPreviewList"
+      Width="200"
+      HorizontalAlignment="Right"
+      Background="{StaticResource SemiBlack}"
+      ItemContainerStyle="{StaticResource PhotoContainerStyle}"
+      ItemTemplate="{StaticResource PhotoTemplate}"
+      ItemsSource="{Binding Photos}" />
   </Grid>
 </Page>
