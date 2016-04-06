@@ -12,6 +12,8 @@ namespace PanoramioExplorer.Views
         public MapView()
         {
             InitializeComponent();
+
+            Map.Center = new Geopoint(new BasicGeoposition { Latitude = 51.564355278387666, Longitude = 32.751946086063981 });
         }
 
         private void OnMapCameraMoved(MapControl map,
