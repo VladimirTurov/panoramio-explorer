@@ -8,7 +8,10 @@ namespace PanoramioExplorer.ViewModels
     public class MapViewModel : Screen
     {
         private readonly ViewModelFactory factory;
+
         private PhotoFeedViewModel photos;
+        private PhotoViewModel selectedPhoto;
+
         private CancellationTokenSource cts;
 
         public MapViewModel(ViewModelFactory factory)
@@ -23,6 +26,17 @@ namespace PanoramioExplorer.ViewModels
             {
                 if (Equals(value, photos)) return;
                 photos = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
+        public PhotoViewModel SelectedPhoto
+        {
+            get { return selectedPhoto; }
+            set
+            {
+                if (Equals(value, selectedPhoto)) return;
+                selectedPhoto = value;
                 NotifyOfPropertyChange();
             }
         }

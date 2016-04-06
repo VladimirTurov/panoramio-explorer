@@ -3,7 +3,9 @@
   xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
   xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
   xmlns:controls="using:PanoramioExplorer.Controls"
+  xmlns:core="using:Microsoft.Xaml.Interactions.Core"
   xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+  xmlns:interactivity="using:Microsoft.Xaml.Interactivity"
   xmlns:maps="using:Windows.UI.Xaml.Controls.Maps"
   xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
   xmlns:viewModels="using:PanoramioExplorer.ViewModels"
@@ -31,6 +33,24 @@
   </Page.Resources>
 
   <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    <!--
+    Y U NOT WORKIN'?! *RAGE*
+
+    <interactivity:Interaction.Behaviors>
+      <core:DataTriggerBehavior
+        Binding="{Binding SelectedPhoto}"
+        Value="{x:Null}">
+        <core:GoToStateAction StateName="ShowingPhoto" />
+      </core:DataTriggerBehavior>
+      <core:DataTriggerBehavior
+        Binding="{Binding SelectedPhoto}"
+        ComparisonCondition="NotEqual"
+        Value="{x:Null}">
+        <core:GoToStateAction StateName="NoPhotoShown" />
+      </core:DataTriggerBehavior>
+    </interactivity:Interaction.Behaviors>
+    -->
+
     <maps:MapControl
       x:Name="Map"
       ActualCameraChanged="OnMapCameraMoved"
@@ -47,6 +67,65 @@
       Background="{StaticResource SemiBlack}"
       ItemContainerStyle="{StaticResource PhotoContainerStyle}"
       ItemTemplate="{StaticResource PhotoTemplate}"
-      ItemsSource="{Binding Photos}" />
+      ItemsSource="{Binding Photos}"
+      SelectedItem="{Binding SelectedPhoto, Mode=TwoWay}"
+      SelectionChanged="OnPhotoSelectionChange" />
+
+    <Grid
+      x:Name="Gallery"
+      Padding="24"
+      Background="Transparent"
+      Opacity="0"
+      IsHitTestVisible="False">
+      <Grid.RowDefinitions>
+        <RowDefinition />
+        <RowDefinition Height="Auto" />
+        <RowDefinition Height="Auto" />
+      </Grid.RowDefinitions>
+
+      <Image
+        Margin="12"
+        Source="{Binding SelectedPhoto.Source}" />
+      <TextBlock
+        Grid.Row="1"
+        Foreground="White"
+        FontSize="36"
+        MaxLines="3"
+        Text="{Binding SelectedPhoto.Title}"
+        TextAlignment="Center"
+        TextTrimming="CharacterEllipsis"
+        TextWrapping="WrapWholeWords" />
+    </Grid>
+
+    <VisualStateManager.VisualStateGroups>
+      <VisualStateGroup x:Name="GalleryModeStateGroup">
+        <VisualState x:Name="ShowingPhoto">
+          <VisualState.Setters>
+            <Setter Target="Gallery.(UIElement.IsHitTestVisible)" Value="True" />
+          </VisualState.Setters>
+          <Storyboard>
+            <ColorAnimation
+              Duration="0:0:0.3"
+              Storyboard.TargetName="Gallery"
+              Storyboard.TargetProperty="(UIElement.Background).(SolidColorBrush.Color)"
+              To="#CC292929">
+              <ColorAnimation.EasingFunction>
+                <CircleEase EasingMode="EaseOut" />
+              </ColorAnimation.EasingFunction>
+            </ColorAnimation>
+            <DoubleAnimation
+              Duration="0:0:0.3"
+              Storyboard.TargetName="Gallery"
+              Storyboard.TargetProperty="(UIElement.Opacity)"
+              To="1">
+              <DoubleAnimation.EasingFunction>
+                <CubicEase EasingMode="EaseOut" />
+              </DoubleAnimation.EasingFunction>
+            </DoubleAnimation>
+          </Storyboard>
+        </VisualState>
+        <VisualState x:Name="NoPhotoShown" />
+      </VisualStateGroup>
+    </VisualStateManager.VisualStateGroups>
   </Grid>
 </Page>
