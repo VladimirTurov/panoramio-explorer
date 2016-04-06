@@ -1,5 +1,6 @@
 ﻿{
   "dependencies": {
+    "AutoMapper": "4.2.1",
     "Caliburn.Micro": "3.0.0",
     "Microsoft.NETCore.UniversalWindowsPlatform": "5.0.0"
   },
