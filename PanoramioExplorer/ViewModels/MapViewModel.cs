@@ -1,12 +1,6 @@
-﻿using System;
-using System.IO;
-using System.Linq;
-using System.Threading;
+﻿using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
-using Windows.Storage;
-using Windows.Storage.Pickers;
-using Windows.Storage.Streams;
 using Caliburn.Micro;
 using PanoramioExplorer.Commands;
 using PanoramioExplorer.Services;
@@ -18,7 +12,7 @@ namespace PanoramioExplorer.ViewModels
     {
         private readonly ViewModelFactory factory;
         private readonly IPhotoSharingService sharingService;
-        private IFileSavingService fileSavingService;
+        private readonly IFileSavingService fileSavingService;
 
         private PhotoFeedViewModel photos;
         private bool isGalleryModeEnabled;
