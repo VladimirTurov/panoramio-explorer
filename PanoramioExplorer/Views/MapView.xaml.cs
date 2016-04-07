@@ -16,8 +16,7 @@ namespace PanoramioExplorer.Views
             Map.Center = new Geopoint(new BasicGeoposition { Latitude = 51.564355278387666, Longitude = 32.751946086063981 });
         }
 
-        private void OnMapCameraMoved(MapControl map,
-                                      MapActualCameraChangedEventArgs e)
+        private void OnMapCameraMoved(MapControl map, object e)
         {
             var visibleArea = CalculateVisibleGeoArea(map);
             (DataContext as MapViewModel).ChangeVisibleArea(visibleArea);

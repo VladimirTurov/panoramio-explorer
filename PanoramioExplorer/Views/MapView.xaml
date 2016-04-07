@@ -127,8 +127,8 @@
 
     <maps:MapControl
       x:Name="Map"
-      ActualCameraChanged="OnMapCameraMoved"
       BusinessLandmarksVisible="True"
+      CenterChanged="OnMapCameraMoved"
       LandmarksVisible="True"
       PedestrianFeaturesVisible="True"
       RotateInteractionMode="Disabled"
