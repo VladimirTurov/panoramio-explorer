@@ -15,6 +15,7 @@
 
   <Page.Resources>
     <converters:ItemClickedConverter x:Key="ItemClickedConverter" />
+    <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
 
     <SolidColorBrush x:Key="SemiBlack" Color="#CC151313" />
 
@@ -227,6 +228,15 @@
             FontWeight="SemiBold"
             Text="ФОТО В ОКРУГЕ" />
 
+          <Border
+            VerticalAlignment="Bottom" 
+            Visibility="{Binding Photos.IsBusy, Converter={StaticResource BoolToVisibilityConverter}}">
+            <ProgressBar
+              VerticalAlignment="Top"
+              Foreground="White"
+              IsIndeterminate="True" />
+          </Border>
+
           <Button Style="{StaticResource HamburgerButtonStyle}" Tapped="MenuToggleButtonTapped">
             <SymbolIcon Style="{StaticResource GalleryFontIcon}" Symbol="Pictures" />
           </Button>
@@ -355,6 +365,11 @@
         </Button>
       </Grid>
     </Grid>
+
+    <controls:ErrorMessage
+      RetryCommand="{Binding RetryCommand}"
+      Text="{Binding ErrorDetails}"
+      Visibility="{Binding IsErrorShown, Converter={StaticResource BoolToVisibilityConverter}}" />
 
     <VisualStateManager.VisualStateGroups>
       <VisualStateGroup x:Name="GalleryModeStates">
