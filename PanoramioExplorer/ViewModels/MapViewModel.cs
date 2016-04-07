@@ -17,6 +17,8 @@ namespace PanoramioExplorer.ViewModels
         private PhotoFeedViewModel photos;
         private bool isGalleryModeEnabled;
         private PhotoViewModel galleryPhoto;
+        private string errorDetails;
+        private bool isErrorShown;
 
         private CancellationTokenSource cts;
 
@@ -68,11 +70,35 @@ namespace PanoramioExplorer.ViewModels
             }
         }
 
+        public string ErrorDetails
+        {
+            get { return errorDetails; }
+            private set
+            {
+                if (value == errorDetails) return;
+                errorDetails = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
+        public bool IsErrorShown
+        {
+            get { return isErrorShown; }
+            private set
+            {
+                if (value == isErrorShown) return;
+                isErrorShown = value;
+                NotifyOfPropertyChange();
+            }
+        }
+
         public ICommand ShowInGalleryModeCommand { get; private set; }
         public ICommand ExitGalleryModeCommand { get; private set; }
 
         public ICommand ShareCommand { get; private set; }
         public ICommand SaveCommand { get; private set; }
+
+        public ICommand RetryCommand { get; private set; }
 
         public async void ChangeVisibleArea(GeoArea visibleArea)
         {
