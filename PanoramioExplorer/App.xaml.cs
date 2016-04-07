@@ -33,7 +33,9 @@ namespace PanoramioExplorer
             container.Singleton<MapViewModel>();
             container.PerRequest<ViewModelFactory>();
             container.PerRequest<PanoramioClient>();
+
             container.PerRequest<IPhotoSharingService, PhotoSharingService>();
+            container.PerRequest<IFileSavingService, FileSavingService>();
 
             eventAggregator = container.GetInstance<IEventAggregator>();
         }

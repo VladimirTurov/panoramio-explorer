@@ -197,7 +197,11 @@
           </Grid>
         </Button>
 
-        <Button Grid.Column="1" Style="{StaticResource GalleryButtonStyle}">
+        <Button
+          Grid.Column="1"
+          Style="{StaticResource GalleryButtonStyle}"
+          Command="{Binding SaveCommand}"
+          CommandParameter="{Binding GalleryPhoto}">
           <Grid>
             <Grid.RowDefinitions>
               <RowDefinition Height="Auto" />

@@ -1,6 +1,12 @@
-﻿using System.Threading;
+﻿using System;
+using System.IO;
+using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Windows.Storage;
+using Windows.Storage.Pickers;
+using Windows.Storage.Streams;
 using Caliburn.Micro;
 using PanoramioExplorer.Commands;
 using PanoramioExplorer.Services;
@@ -12,6 +18,7 @@ namespace PanoramioExplorer.ViewModels
     {
         private readonly ViewModelFactory factory;
         private readonly IPhotoSharingService sharingService;
+        private IFileSavingService fileSavingService;
 
         private PhotoFeedViewModel photos;
         private bool isGalleryModeEnabled;
@@ -19,15 +26,19 @@ namespace PanoramioExplorer.ViewModels
 
         private CancellationTokenSource cts;
 
-        public MapViewModel(ViewModelFactory factory, IPhotoSharingService sharingService)
+        public MapViewModel(ViewModelFactory factory,
+                            IPhotoSharingService sharingService,
+                            IFileSavingService fileSavingService)
         {
             this.factory = factory;
             this.sharingService = sharingService;
+            this.fileSavingService = fileSavingService;
 
             ShowInGalleryModeCommand = new SimpleCommand<PhotoViewModel>(ShowInGalleryMode);
             ExitGalleryModeCommand = new SimpleCommand<object>(ExitGalleryMode);
 
             ShareCommand = new SimpleCommand<PhotoViewModel>(Share);
+            SaveCommand = new SimpleCommand<PhotoViewModel>(Save);
         }
 
         public PhotoFeedViewModel Photos
@@ -101,6 +112,11 @@ namespace PanoramioExplorer.ViewModels
         private void Share(PhotoViewModel photo)
         {
             sharingService.Share(photo.Source, photo.Title);
+        }
+
+        private async void Save(PhotoViewModel photo)
+        {
+            await fileSavingService.SaveImageAsync(photo.Source);
         }
     }
 }
