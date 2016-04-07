@@ -1,6 +1,7 @@
 ﻿using System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
+using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 
 namespace PanoramioExplorer.Controls
@@ -18,6 +19,10 @@ namespace PanoramioExplorer.Controls
         public static readonly DependencyProperty TitleProperty =
             DependencyProperty.Register("Title", typeof(string), typeof(PhotoImage),
                                         new PropertyMetadata(default(string)));
+
+        public static readonly DependencyProperty ImageStretchProperty =
+            DependencyProperty.Register("ImageStretch", typeof(Stretch), typeof(PhotoImage),
+                new PropertyMetadata(default(Stretch)));
 
         private static void OnSourceChanged(DependencyObject target,
                                             DependencyPropertyChangedEventArgs e)
@@ -48,6 +53,12 @@ namespace PanoramioExplorer.Controls
         {
             get { return (string)GetValue(TitleProperty); }
             set { SetValue(TitleProperty, value); }
+        }
+
+        public Stretch ImageStretch
+        {
+            get { return (Stretch)GetValue(ImageStretchProperty); }
+            set { SetValue(ImageStretchProperty, value); }
         }
 
         protected override void OnApplyTemplate()
