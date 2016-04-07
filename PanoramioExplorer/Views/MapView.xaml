@@ -49,10 +49,7 @@
       <Setter Property="Template">
         <Setter.Value>
           <ControlTemplate TargetType="Button">
-            <Border
-              x:Name="Root"
-              Background="{TemplateBinding Background}"
-              CornerRadius="12">
+            <Grid x:Name="RootGrid" Background="{TemplateBinding Background}">
               <ContentPresenter
                 x:Name="ContentPresenter"
                 Padding="{TemplateBinding Padding}"
@@ -68,7 +65,7 @@
                 <VisualStateGroup x:Name="CommonStates">
                   <VisualState x:Name="Normal">
                     <Storyboard>
-                      <PointerUpThemeAnimation Storyboard.TargetName="Root" />
+                      <PointerUpThemeAnimation Storyboard.TargetName="RootGrid" />
                     </Storyboard>
                   </VisualState>
                   <VisualState x:Name="PointerOver">
@@ -76,7 +73,7 @@
                       <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Foreground">
                         <DiscreteObjectKeyFrame KeyTime="0" Value="White" />
                       </ObjectAnimationUsingKeyFrames>
-                      <PointerUpThemeAnimation Storyboard.TargetName="Root" />
+                      <PointerUpThemeAnimation Storyboard.TargetName="RootGrid" />
                     </Storyboard>
                   </VisualState>
                   <VisualState x:Name="Pressed">
@@ -84,12 +81,12 @@
                       <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Foreground">
                         <DiscreteObjectKeyFrame KeyTime="0" Value="White" />
                       </ObjectAnimationUsingKeyFrames>
-                      <PointerDownThemeAnimation Storyboard.TargetName="Root" />
+                      <PointerDownThemeAnimation Storyboard.TargetName="RootGrid" />
                     </Storyboard>
                   </VisualState>
                   <VisualState x:Name="Disabled">
                     <Storyboard>
-                      <ObjectAnimationUsingKeyFrames Storyboard.TargetName="Root" Storyboard.TargetProperty="Background">
+                      <ObjectAnimationUsingKeyFrames Storyboard.TargetName="RootGrid" Storyboard.TargetProperty="Background">
                         <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlBackgroundBaseLowBrush}" />
                       </ObjectAnimationUsingKeyFrames>
                       <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Foreground">
@@ -99,7 +96,7 @@
                   </VisualState>
                 </VisualStateGroup>
               </VisualStateManager.VisualStateGroups>
-            </Border>
+            </Grid>
           </ControlTemplate>
         </Setter.Value>
       </Setter>
