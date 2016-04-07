@@ -22,6 +22,7 @@ namespace PanoramioExplorer.ViewModels
             this.factory = factory;
 
             ShowInGalleryModeCommand = new SimpleCommand<PhotoViewModel>(ShowInGalleryMode);
+            ExitGalleryModeCommand = new SimpleCommand<object>(ExitGalleryMode);
         }
 
         public PhotoFeedViewModel Photos
@@ -58,6 +59,10 @@ namespace PanoramioExplorer.ViewModels
         }
 
         public ICommand ShowInGalleryModeCommand { get; private set; }
+        public ICommand ExitGalleryModeCommand { get; private set; }
+
+        public ICommand ShareCommand { get; private set; }
+        public ICommand SaveCommand { get; private set; }
 
         public async void ChangeVisibleArea(GeoArea visibleArea)
         {
@@ -80,6 +85,12 @@ namespace PanoramioExplorer.ViewModels
         {
             IsGalleryModeEnabled = photo != null;
             GalleryPhoto = photo;
+        }
+
+        private void ExitGalleryMode(object parameter)
+        {
+            IsGalleryModeEnabled = false;
+            GalleryPhoto = null;
         }
     }
 }
