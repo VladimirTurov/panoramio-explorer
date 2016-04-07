@@ -1,6 +1,7 @@
 ﻿using System;
 using Windows.Devices.Geolocation;
 using Windows.Foundation;
+using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls.Maps;
 using PanoramioExplorer.ViewModels;
 using PanoramioSDK;
@@ -40,6 +41,11 @@ namespace PanoramioExplorer.Views
 
             return new GeoArea(minLongitude, minLatitude,
                                maxLongitude, maxLatitude);
+        }
+
+        private void MenuToggleButtonTapped(object sender, RoutedEventArgs e)
+        {
+            SplitView.IsPaneOpen = !SplitView.IsPaneOpen;
         }
     }
 }

@@ -37,7 +37,7 @@
 
     <Style x:Key="GalleryButtonStyle" TargetType="Button">
       <Setter Property="Foreground" Value="#7FCBCBCB" />
-      <Setter Property="Background" Value="#33191C61" />
+      <Setter Property="Background" Value="Transparent" />
       <Setter Property="HorizontalAlignment" Value="Center" />
       <Setter Property="VerticalAlignment" Value="Center" />
       <Setter Property="HorizontalContentAlignment" Value="Center" />
@@ -113,9 +113,93 @@
     <Style x:Key="GalleryFontIconLabel" TargetType="TextBlock">
       <Setter Property="FontSize" Value="12" />
     </Style>
+
+    <Style x:Key="HamburgerButtonStyle" TargetType="Button">
+      <Setter Property="Width" Value="50" />
+      <Setter Property="Height" Value="50" />
+      <Setter Property="Margin" Value="0" />
+      <Setter Property="Foreground" Value="White" />
+      <Setter Property="Background" Value="Transparent" />
+      <Setter Property="BorderThickness" Value="0" />
+      <Setter Property="BorderBrush" Value="Transparent" />
+      <Setter Property="Template">
+        <Setter.Value>
+          <ControlTemplate TargetType="Button">
+            <Grid x:Name="RootGrid" Background="{TemplateBinding Background}">
+              <ContentPresenter
+                x:Name="ContentPresenter"
+                Padding="{TemplateBinding Padding}"
+                HorizontalContentAlignment="{TemplateBinding HorizontalContentAlignment}"
+                VerticalContentAlignment="{TemplateBinding VerticalContentAlignment}"
+                BorderBrush="{TemplateBinding BorderBrush}"
+                BorderThickness="{TemplateBinding BorderThickness}"
+                AutomationProperties.AccessibilityView="Raw"
+                Content="{TemplateBinding Content}"
+                ContentTemplate="{TemplateBinding ContentTemplate}"
+                ContentTransitions="{TemplateBinding ContentTransitions}" />
+              <VisualStateManager.VisualStateGroups>
+                <VisualStateGroup x:Name="CommonStates">
+                  <VisualState x:Name="Normal">
+                    <Storyboard>
+                      <PointerUpThemeAnimation Storyboard.TargetName="RootGrid" />
+                    </Storyboard>
+                  </VisualState>
+                  <VisualState x:Name="PointerOver">
+                    <Storyboard>
+                      <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="BorderBrush">
+                        <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlHighlightBaseMediumLowBrush}" />
+                      </ObjectAnimationUsingKeyFrames>
+                      <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Foreground">
+                        <DiscreteObjectKeyFrame KeyTime="0">
+                          <DiscreteObjectKeyFrame.Value>
+                            <SolidColorBrush Color="#FFE2E2E2" />
+                          </DiscreteObjectKeyFrame.Value>
+                        </DiscreteObjectKeyFrame>
+                      </ObjectAnimationUsingKeyFrames>
+                      <PointerUpThemeAnimation Storyboard.TargetName="RootGrid" />
+                    </Storyboard>
+                  </VisualState>
+                  <VisualState x:Name="Pressed">
+                    <Storyboard>
+                      <ObjectAnimationUsingKeyFrames Storyboard.TargetName="RootGrid" Storyboard.TargetProperty="Background">
+                        <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlBackgroundBaseMediumLowBrush}" />
+                      </ObjectAnimationUsingKeyFrames>
+                      <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="BorderBrush">
+                        <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlHighlightTransparentBrush}" />
+                      </ObjectAnimationUsingKeyFrames>
+                      <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Foreground">
+                        <DiscreteObjectKeyFrame KeyTime="0">
+                          <DiscreteObjectKeyFrame.Value>
+                            <SolidColorBrush Color="#FFDCDBDB" />
+                          </DiscreteObjectKeyFrame.Value>
+                        </DiscreteObjectKeyFrame>
+                      </ObjectAnimationUsingKeyFrames>
+                      <PointerDownThemeAnimation Storyboard.TargetName="RootGrid" />
+                    </Storyboard>
+                  </VisualState>
+                  <VisualState x:Name="Disabled">
+                    <Storyboard>
+                      <ObjectAnimationUsingKeyFrames Storyboard.TargetName="RootGrid" Storyboard.TargetProperty="Background">
+                        <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlBackgroundBaseLowBrush}" />
+                      </ObjectAnimationUsingKeyFrames>
+                      <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="Foreground">
+                        <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlDisabledBaseLowBrush}" />
+                      </ObjectAnimationUsingKeyFrames>
+                      <ObjectAnimationUsingKeyFrames Storyboard.TargetName="ContentPresenter" Storyboard.TargetProperty="BorderBrush">
+                        <DiscreteObjectKeyFrame KeyTime="0" Value="{ThemeResource SystemControlDisabledTransparentBrush}" />
+                      </ObjectAnimationUsingKeyFrames>
+                    </Storyboard>
+                  </VisualState>
+                </VisualStateGroup>
+              </VisualStateManager.VisualStateGroups>
+            </Grid>
+          </ControlTemplate>
+        </Setter.Value>
+      </Setter>
+    </Style>
   </Page.Resources>
 
-  <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+  <Grid>
     <interactivity:Interaction.Behaviors>
       <core:DataTriggerBehavior Binding="{Binding IsGalleryModeEnabled}" Value="True">
         <core:GoToStateAction StateName="ShowingPhoto" />
@@ -125,31 +209,59 @@
       </core:DataTriggerBehavior>
     </interactivity:Interaction.Behaviors>
 
-    <maps:MapControl
-      x:Name="Map"
-      BusinessLandmarksVisible="True"
-      CenterChanged="OnMapCameraMoved"
-      LandmarksVisible="True"
-      PedestrianFeaturesVisible="True"
-      RotateInteractionMode="Disabled"
-      ZoomLevel="4" />
+    <SplitView
+      x:Name="SplitView"
+      CompactPaneLength="50"
+      DisplayMode="CompactOverlay"
+      IsPaneOpen="False"
+      OpenPaneLength="200"
+      PanePlacement="Left">
+      <SplitView.Pane>
+        <Grid Background="{StaticResource SemiBlack}">
+          <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition />
+          </Grid.RowDefinitions>
 
-    <ListView
-      x:Name="PhotoPreviewList"
-      Width="200"
-      HorizontalAlignment="Right"
-      Background="{StaticResource SemiBlack}"
-      IsItemClickEnabled="True"
-      ItemContainerStyle="{StaticResource PhotoContainerStyle}"
-      ItemTemplate="{StaticResource PhotoTemplate}"
-      ItemsSource="{Binding Photos}"
-      SelectionMode="None">
-      <interactivity:Interaction.Behaviors>
-        <core:EventTriggerBehavior EventName="ItemClick">
-          <core:InvokeCommandAction Command="{Binding ShowInGalleryModeCommand}" InputConverter="{StaticResource ItemClickedConverter}" />
-        </core:EventTriggerBehavior>
-      </interactivity:Interaction.Behaviors>
-    </ListView>
+          <TextBlock
+            Margin="56,0,0,0"
+            VerticalAlignment="Center"
+            Foreground="White"
+            FontWeight="SemiBold"
+            Text="ФОТО В ОКРУГЕ" />
+
+          <Button Style="{StaticResource HamburgerButtonStyle}" Tapped="MenuToggleButtonTapped">
+            <SymbolIcon Style="{StaticResource GalleryFontIcon}" Symbol="Pictures" />
+          </Button>
+
+          <ListView
+            Grid.Row="1"
+            IsItemClickEnabled="True"
+            ItemContainerStyle="{StaticResource PhotoContainerStyle}"
+            ItemTemplate="{StaticResource PhotoTemplate}"
+            ItemsSource="{Binding Photos}"
+            SelectionMode="None">
+            <interactivity:Interaction.Behaviors>
+              <core:EventTriggerBehavior EventName="ItemClick">
+                <core:InvokeCommandAction Command="{Binding ShowInGalleryModeCommand}" InputConverter="{StaticResource ItemClickedConverter}" />
+              </core:EventTriggerBehavior>
+            </interactivity:Interaction.Behaviors>
+          </ListView>
+        </Grid>
+      </SplitView.Pane>
+
+      <SplitView.Content>
+        <maps:MapControl
+          x:Name="Map"
+          BusinessLandmarksVisible="True"
+          CenterChanged="OnMapCameraMoved"
+          LandmarksVisible="True"
+          PedestrianFeaturesVisible="True"
+          RotateInteractionMode="Disabled"
+          ZoomLevel="4" />
+      </SplitView.Content>
+    </SplitView>
+
 
     <Grid
       x:Name="Gallery"
