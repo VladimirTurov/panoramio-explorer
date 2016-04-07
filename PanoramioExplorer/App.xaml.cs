@@ -4,6 +4,7 @@ using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using AutoMapper;
 using Caliburn.Micro;
+using PanoramioExplorer.Services;
 using PanoramioExplorer.ViewModels;
 using PanoramioSDK;
 
@@ -32,6 +33,9 @@ namespace PanoramioExplorer
             container.Singleton<MapViewModel>();
             container.PerRequest<ViewModelFactory>();
             container.PerRequest<PanoramioClient>();
+
+            container.PerRequest<IPhotoSharingService, PhotoSharingService>();
+            container.PerRequest<IFileSavingService, FileSavingService>();
 
             eventAggregator = container.GetInstance<IEventAggregator>();
         }

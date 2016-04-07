@@ -1,8 +1,15 @@
-﻿using System.Threading;
+﻿using System;
+using System.IO;
+using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using Windows.Storage;
+using Windows.Storage.Pickers;
+using Windows.Storage.Streams;
 using Caliburn.Micro;
 using PanoramioExplorer.Commands;
+using PanoramioExplorer.Services;
 using PanoramioSDK;
 
 namespace PanoramioExplorer.ViewModels
@@ -10,6 +17,8 @@ namespace PanoramioExplorer.ViewModels
     public class MapViewModel : Screen
     {
         private readonly ViewModelFactory factory;
+        private readonly IPhotoSharingService sharingService;
+        private IFileSavingService fileSavingService;
 
         private PhotoFeedViewModel photos;
         private bool isGalleryModeEnabled;
@@ -17,11 +26,19 @@ namespace PanoramioExplorer.ViewModels
 
         private CancellationTokenSource cts;
 
-        public MapViewModel(ViewModelFactory factory)
+        public MapViewModel(ViewModelFactory factory,
+                            IPhotoSharingService sharingService,
+                            IFileSavingService fileSavingService)
         {
             this.factory = factory;
+            this.sharingService = sharingService;
+            this.fileSavingService = fileSavingService;
 
             ShowInGalleryModeCommand = new SimpleCommand<PhotoViewModel>(ShowInGalleryMode);
+            ExitGalleryModeCommand = new SimpleCommand<object>(ExitGalleryMode);
+
+            ShareCommand = new SimpleCommand<PhotoViewModel>(Share);
+            SaveCommand = new SimpleCommand<PhotoViewModel>(Save);
         }
 
         public PhotoFeedViewModel Photos
@@ -58,6 +75,10 @@ namespace PanoramioExplorer.ViewModels
         }
 
         public ICommand ShowInGalleryModeCommand { get; private set; }
+        public ICommand ExitGalleryModeCommand { get; private set; }
+
+        public ICommand ShareCommand { get; private set; }
+        public ICommand SaveCommand { get; private set; }
 
         public async void ChangeVisibleArea(GeoArea visibleArea)
         {
@@ -80,6 +101,22 @@ namespace PanoramioExplorer.ViewModels
         {
             IsGalleryModeEnabled = photo != null;
             GalleryPhoto = photo;
+        }
+
+        private void ExitGalleryMode(object parameter)
+        {
+            IsGalleryModeEnabled = false;
+            GalleryPhoto = null;
+        }
+
+        private void Share(PhotoViewModel photo)
+        {
+            sharingService.Share(photo.Source, photo.Title);
+        }
+
+        private async void Save(PhotoViewModel photo)
+        {
+            await fileSavingService.SaveImageAsync(photo.Source);
         }
     }
 }
