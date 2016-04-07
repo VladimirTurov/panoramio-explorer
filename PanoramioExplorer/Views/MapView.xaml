@@ -228,6 +228,15 @@
             FontWeight="SemiBold"
             Text="ФОТО В ОКРУГЕ" />
 
+          <Border
+            VerticalAlignment="Bottom" 
+            Visibility="{Binding Photos.IsBusy, Converter={StaticResource BoolToVisibilityConverter}}">
+            <ProgressBar
+              VerticalAlignment="Top"
+              Foreground="White"
+              IsIndeterminate="True" />
+          </Border>
+
           <Button Style="{StaticResource HamburgerButtonStyle}" Tapped="MenuToggleButtonTapped">
             <SymbolIcon Style="{StaticResource GalleryFontIcon}" Symbol="Pictures" />
           </Button>
