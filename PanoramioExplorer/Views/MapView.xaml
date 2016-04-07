@@ -178,7 +178,11 @@
           <ColumnDefinition Width="Auto" />
         </Grid.ColumnDefinitions>
 
-        <Button Grid.Column="0" Style="{StaticResource GalleryButtonStyle}">
+        <Button
+          Grid.Column="0"
+          Style="{StaticResource GalleryButtonStyle}"
+          Command="{Binding ShareCommand}"
+          CommandParameter="{Binding GalleryPhoto}">
           <Grid>
             <Grid.RowDefinitions>
               <RowDefinition Height="Auto" />

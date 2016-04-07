@@ -99,6 +99,8 @@
     <Compile Include="Controls\PhotoImage.cs" />
     <Compile Include="Converters\ItemClickedConverter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\IPhotoSharingService.cs" />
+    <Compile Include="Services\PhotoSharingService.cs" />
     <Compile Include="ViewModels\MapViewModel.cs" />
     <Compile Include="ViewModels\PhotoFeedViewModel.cs" />
     <Compile Include="ViewModels\PhotoViewModel.cs" />

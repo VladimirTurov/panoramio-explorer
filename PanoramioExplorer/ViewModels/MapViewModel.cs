@@ -3,6 +3,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Caliburn.Micro;
 using PanoramioExplorer.Commands;
+using PanoramioExplorer.Services;
 using PanoramioSDK;
 
 namespace PanoramioExplorer.ViewModels
@@ -10,6 +11,7 @@ namespace PanoramioExplorer.ViewModels
     public class MapViewModel : Screen
     {
         private readonly ViewModelFactory factory;
+        private readonly IPhotoSharingService sharingService;
 
         private PhotoFeedViewModel photos;
         private bool isGalleryModeEnabled;
@@ -17,12 +19,15 @@ namespace PanoramioExplorer.ViewModels
 
         private CancellationTokenSource cts;
 
-        public MapViewModel(ViewModelFactory factory)
+        public MapViewModel(ViewModelFactory factory, IPhotoSharingService sharingService)
         {
             this.factory = factory;
+            this.sharingService = sharingService;
 
             ShowInGalleryModeCommand = new SimpleCommand<PhotoViewModel>(ShowInGalleryMode);
             ExitGalleryModeCommand = new SimpleCommand<object>(ExitGalleryMode);
+
+            ShareCommand = new SimpleCommand<PhotoViewModel>(Share);
         }
 
         public PhotoFeedViewModel Photos
@@ -91,6 +96,11 @@ namespace PanoramioExplorer.ViewModels
         {
             IsGalleryModeEnabled = false;
             GalleryPhoto = null;
+        }
+
+        private void Share(PhotoViewModel photo)
+        {
+            sharingService.Share(photo.Source, photo.Title);
         }
     }
 }
