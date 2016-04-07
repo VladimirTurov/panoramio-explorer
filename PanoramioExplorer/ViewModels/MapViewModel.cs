@@ -1,4 +1,5 @@
-﻿using System.Threading;
+﻿using System;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Caliburn.Micro;
@@ -13,6 +14,8 @@ namespace PanoramioExplorer.ViewModels
         private readonly ViewModelFactory factory;
         private readonly IPhotoSharingService sharingService;
         private readonly IFileSavingService fileSavingService;
+
+        private GeoArea currentArea;
 
         private PhotoFeedViewModel photos;
         private bool isGalleryModeEnabled;
@@ -35,6 +38,8 @@ namespace PanoramioExplorer.ViewModels
 
             ShareCommand = new SimpleCommand<PhotoViewModel>(Share);
             SaveCommand = new SimpleCommand<PhotoViewModel>(Save);
+
+            RetryCommand = new SimpleCommand<object>(Retry);
         }
 
         public PhotoFeedViewModel Photos
@@ -114,7 +119,11 @@ namespace PanoramioExplorer.ViewModels
                 return;
             }
 
+            if (Photos != null) Photos.ItemsLoadingError -= OnItemsLoadingError;
             Photos = factory.CreatePhotoFeedViewModel(visibleArea);
+            if (Photos != null) Photos.ItemsLoadingError += OnItemsLoadingError;
+
+            currentArea = visibleArea;
         }
 
         private void ShowInGalleryMode(PhotoViewModel photo)
@@ -137,6 +146,24 @@ namespace PanoramioExplorer.ViewModels
         private async void Save(PhotoViewModel photo)
         {
             await fileSavingService.SaveImageAsync(photo.Source);
+        }
+
+        private void OnItemsLoadingError(object sender, EventArgs e)
+        {
+            IsErrorShown = true;
+            ErrorDetails = "Оу, все сломалось!"
+                + Environment.NewLine
+                + Environment.NewLine
+                + "В следующий раз постарайся скроллить не так быстро, "
+                + "и убедись, что присутствует соединение к сети";
+        }
+
+        private void Retry(object parameter)
+        {
+            IsErrorShown = false;
+            ErrorDetails = null;
+
+            ChangeVisibleArea(currentArea);
         }
     }
 }

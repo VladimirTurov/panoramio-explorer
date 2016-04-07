@@ -25,6 +25,8 @@ namespace PanoramioExplorer.ViewModels
 
         public bool HasMoreItems { get; private set; }
 
+        public event EventHandler ItemsLoadingError;
+
         public IAsyncOperation<LoadMoreItemsResult> LoadMoreItemsAsync(uint count)
         {
             return FetchMoreItemsAsync(count).AsAsyncOperation();
@@ -36,9 +38,16 @@ namespace PanoramioExplorer.ViewModels
                 requestedCount = 10;
 
             var currentCount = Count;
-            var photos = await client.GetPhotosAsync(geoArea, new PagingInfo(currentCount, (int)(currentCount + requestedCount)));
-            foreach (var photo in photos)
-                Add(factory.CreatePhotoViewModel(photo));
+            try
+            {
+                var photos = await client.GetPhotosAsync(geoArea, new PagingInfo(currentCount, (int)(currentCount + requestedCount)));
+                foreach (var photo in photos)
+                    Add(factory.CreatePhotoViewModel(photo));
+            }
+            catch
+            {
+                ItemsLoadingError?.Invoke(this, EventArgs.Empty);
+            }
 
             HasMoreItems = currentCount != Count;
             return new LoadMoreItemsResult { Count = requestedCount };
