@@ -97,6 +97,7 @@
     </Compile>
     <Compile Include="Commands\SimpleCommand.cs" />
     <Compile Include="Controls\PhotoImage.cs" />
+    <Compile Include="Converters\ItemClickedConverter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ViewModels\MapViewModel.cs" />
     <Compile Include="ViewModels\PhotoFeedViewModel.cs" />

@@ -1,8 +1,6 @@
 ﻿using System;
 using Windows.Devices.Geolocation;
 using Windows.Foundation;
-using Windows.UI.Xaml;
-using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Maps;
 using PanoramioExplorer.ViewModels;
 using PanoramioSDK;
@@ -43,12 +41,6 @@ namespace PanoramioExplorer.Views
 
             return new GeoArea(minLongitude, minLatitude,
                                maxLongitude, maxLatitude);
-        }
-
-        private void OnPhotoSelectionChange(object sender, SelectionChangedEventArgs e)
-        {
-            var stateName = PhotoPreviewList.SelectedItem == null ? "NoPhotoShown" : "ShowingPhoto";
-            VisualStateManager.GoToState(this, stateName, true);
         }
     }
 }
