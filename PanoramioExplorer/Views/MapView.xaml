@@ -15,6 +15,7 @@
 
   <Page.Resources>
     <converters:ItemClickedConverter x:Key="ItemClickedConverter" />
+    <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
 
     <SolidColorBrush x:Key="SemiBlack" Color="#CC151313" />
 
@@ -355,6 +356,11 @@
         </Button>
       </Grid>
     </Grid>
+
+    <controls:ErrorMessage
+      RetryCommand="{Binding RetryCommand}"
+      Text="{Binding ErrorDetails}"
+      Visibility="{Binding IsErrorShown, Converter={StaticResource BoolToVisibilityConverter}}" />
 
     <VisualStateManager.VisualStateGroups>
       <VisualStateGroup x:Name="GalleryModeStates">
