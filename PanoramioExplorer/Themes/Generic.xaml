@@ -17,7 +17,7 @@
               x:Name="Image_PART"
               Margin="8"
               Source="{TemplateBinding ImageSource}"
-              Stretch="UniformToFill" />
+              Stretch="{TemplateBinding ImageStretch}" />
             <TextBlock
               Grid.Row="1"
               Foreground="{TemplateBinding Foreground}"
