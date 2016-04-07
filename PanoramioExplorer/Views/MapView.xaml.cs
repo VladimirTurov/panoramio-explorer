@@ -19,8 +19,16 @@ namespace PanoramioExplorer.Views
 
         private void OnMapCameraMoved(MapControl map, object e)
         {
-            var visibleArea = CalculateVisibleGeoArea(map);
-            (DataContext as MapViewModel).ChangeVisibleArea(visibleArea);
+            try
+            {
+                var visibleArea = CalculateVisibleGeoArea(map);
+                (DataContext as MapViewModel).ChangeVisibleArea(visibleArea);
+            }
+            catch(ArgumentException)
+            {
+                // MapControl throws an exceptions when you're crossing the bounds of map.
+                // Need to fix this in near future ;D
+            }
         }
 
         private static GeoArea CalculateVisibleGeoArea(MapControl map)
