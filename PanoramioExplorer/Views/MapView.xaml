@@ -248,18 +248,28 @@
       </SplitView.Pane>
 
       <SplitView.Content>
-        <maps:MapControl
-          x:Name="Map"
-          BusinessLandmarksVisible="True"
-          CenterChanged="OnMapCameraMoved"
-          LandmarksVisible="True"
-          MapServiceToken="zKKBmbhIfWmIi8N8dQVj~TYotu19ga0k1ptjWBIX3cw~AsvDIqMdbbS_I0joDqQzL6rOXgeEeARapflTsdpVDrTC6__BRrckTV7uLMUtk4CP"
-          PedestrianFeaturesVisible="True"
-          RotateInteractionMode="Disabled"
-          ZoomLevel="4" />
+        <Grid>
+          <maps:MapControl
+            x:Name="Map"
+            BusinessLandmarksVisible="True"
+            CenterChanged="OnMapCameraMoved"
+            LandmarksVisible="True"
+            MapServiceToken="zKKBmbhIfWmIi8N8dQVj~TYotu19ga0k1ptjWBIX3cw~AsvDIqMdbbS_I0joDqQzL6rOXgeEeARapflTsdpVDrTC6__BRrckTV7uLMUtk4CP"
+            PedestrianFeaturesVisible="True"
+            RotateInteractionMode="Disabled"
+            ZoomLevel="4" />
+
+          <Image
+            Width="50"
+            Height="50"
+            Margin="0,0,25,25"
+            HorizontalAlignment="Center"
+            VerticalAlignment="Center"
+            IsHitTestVisible="False"
+            Source="/Assets/pin.png" />
+        </Grid>
       </SplitView.Content>
     </SplitView>
-
 
     <Grid
       x:Name="Gallery"

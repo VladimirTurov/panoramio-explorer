@@ -119,6 +119,9 @@
     <None Include="PanoramioExplorer_TemporaryKey.pfx" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Assets\pin.scale-100.png" />
+    <Content Include="Assets\pin.scale-140.png" />
+    <Content Include="Assets\pin.scale-240.png" />
     <Content Include="Properties\Default.rd.xml" />
     <Content Include="Assets\LockScreenLogo.scale-200.png" />
     <Content Include="Assets\SplashScreen.scale-200.png" />
