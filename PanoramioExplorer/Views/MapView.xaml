@@ -253,6 +253,7 @@
           BusinessLandmarksVisible="True"
           CenterChanged="OnMapCameraMoved"
           LandmarksVisible="True"
+          MapServiceToken="zKKBmbhIfWmIi8N8dQVj~TYotu19ga0k1ptjWBIX3cw~AsvDIqMdbbS_I0joDqQzL6rOXgeEeARapflTsdpVDrTC6__BRrckTV7uLMUtk4CP"
           PedestrianFeaturesVisible="True"
           RotateInteractionMode="Disabled"
           ZoomLevel="4" />
