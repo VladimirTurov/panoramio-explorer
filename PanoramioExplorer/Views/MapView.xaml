@@ -27,7 +27,8 @@
         Background="White"
         Foreground="Black"
         ImageSource="{Binding Source}"
-        ImageStretch="UniformToFill" />
+        ImageStretch="UniformToFill"
+        TextWrapping="NoWrap" />
     </DataTemplate>
 
     <Style x:Key="PhotoContainerStyle" TargetType="ListViewItem">
@@ -299,7 +300,8 @@
         Background="Transparent"
         Foreground="White"
         ImageSource="{Binding GalleryPhoto.Source}"
-        ImageStretch="Uniform" />
+        ImageStretch="Uniform"
+        TextWrapping="WrapWholeWords" />
 
       <Grid Grid.Row="2" HorizontalAlignment="Center">
         <Grid.ColumnDefinitions>

@@ -64,9 +64,10 @@ namespace PanoramioExplorer.ViewModels
                 ItemsLoadingError?.Invoke(this, EventArgs.Empty);
             }
 
+            var addedCount = Count - currentCount;
+            HasMoreItems = addedCount != 0;
             IsBusy = false;
-            HasMoreItems = currentCount != Count;
-            return new LoadMoreItemsResult { Count = requestedCount };
+            return new LoadMoreItemsResult { Count = (uint) addedCount };
         }
     }
 }

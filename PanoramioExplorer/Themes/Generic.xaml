@@ -23,7 +23,9 @@
               Foreground="{TemplateBinding Foreground}"
               FontSize="16"
               Text="{TemplateBinding Title}"
-              TextTrimming="CharacterEllipsis" />
+              TextAlignment="Center"
+              TextTrimming="CharacterEllipsis"
+              TextWrapping="{TemplateBinding TextWrapping}" />
 
             <ProgressRing
               x:Name="Loader_PART"

@@ -24,6 +24,10 @@ namespace PanoramioExplorer.Controls
             DependencyProperty.Register("ImageStretch", typeof(Stretch), typeof(PhotoImage),
                 new PropertyMetadata(default(Stretch)));
 
+        public static readonly DependencyProperty TextWrappingProperty =
+            DependencyProperty.Register("TextWrapping", typeof(TextWrapping), typeof(PhotoImage),
+                new PropertyMetadata(default(TextWrapping)));
+
         private static void OnSourceChanged(DependencyObject target,
                                             DependencyPropertyChangedEventArgs e)
         {
@@ -59,6 +63,12 @@ namespace PanoramioExplorer.Controls
         {
             get { return (Stretch)GetValue(ImageStretchProperty); }
             set { SetValue(ImageStretchProperty, value); }
+        }
+
+        public TextWrapping TextWrapping
+        {
+            get { return (TextWrapping)GetValue(TextWrappingProperty); }
+            set { SetValue(TextWrappingProperty, value); }
         }
 
         protected override void OnApplyTemplate()
